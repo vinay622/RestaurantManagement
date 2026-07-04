@@ -11,7 +11,7 @@ pleasant on both sides of the host stand.
   pages, brass ink, and a signature **table-availability timeline** that reads the floor
   at a glance.
 
-> **Live demo:** _frontend_ → `https://restaurant-management-snowy-tau.vercel.app` · _API_ → `https://maison-lumiere-api.onrender.com/api/v1`
+> **Live demo:** _frontend_ → `https://restaurant-management-snowy-tau.vercel.app` ·
 
 ---
 
