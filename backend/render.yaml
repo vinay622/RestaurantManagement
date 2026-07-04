@@ -1,0 +1,31 @@
+# Render Blueprint for the API.
+# In the Render dashboard: New → Blueprint → point at this repo.
+# Set the secret env values (marked sync:false) in the dashboard.
+services:
+  - type: web
+    name: maison-lumiere-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false # paste your MongoDB Atlas connection string
+      - key: JWT_SECRET
+        generateValue: true # Render generates a strong secret
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: ADMIN_SIGNUP_CODE
+        sync: false # your secret staff code
+      - key: CORS_ORIGINS
+        sync: false # e.g. https://your-app.vercel.app
+      - key: SEED_ADMIN_NAME
+        value: Margaux Vane
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false

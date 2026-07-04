@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# QA artifacts
+frontend/qa/shots/
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db

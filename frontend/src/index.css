@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Maison Lumière — "The Reservation Book"
+   Design tokens. Aubergine menu cover + warm linen pages,
+   brass ink, a ledger set in mono.
+   ============================================================ */
+
+@theme {
+  /* Core surfaces — the dark "menu cover" */
+  --color-ink: #1a1420; /* deepest aubergine-black */
+  --color-plum: #241a2b; /* raised plum panel */
+  --color-plum-2: #2f2338; /* hovered / elevated plum */
+  --color-plum-line: #3d2f47; /* hairline on dark */
+
+  /* Warm "linen page" surfaces */
+  --color-linen: #fbf7ef; /* primary light page */
+  --color-linen-2: #f3ecde; /* cream card */
+  --color-linen-line: #e4d9c4; /* hairline on light */
+
+  /* Brass — the house colour. Reservations, primary action. */
+  --color-brass: #c9a24b;
+  --color-brass-deep: #a9822f;
+  --color-brass-soft: #e7cf95;
+
+  /* Status hues, muted so they read as dining-room, not dashboard */
+  --color-sage: #7ba88a; /* available / open */
+  --color-sage-deep: #4f7a5f;
+  --color-clay: #d9694b; /* booked / conflict / danger */
+  --color-clay-deep: #b14a30;
+
+  /* Type on each ground */
+  --color-cream: #f3ecde; /* text on dark */
+  --color-cream-dim: #b6a9b6; /* muted text on dark */
+  --color-cocoa: #35242f; /* text on light */
+  --color-cocoa-dim: #7c6a78; /* muted text on light */
+
+  /* Typography */
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radii — soft, not pill; a menu has gentle corners */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* Shadows — warm, low, candlelit */
+  --shadow-page: 0 1px 2px rgba(26, 20, 32, 0.06), 0 8px 24px rgba(26, 20, 32, 0.08);
+  --shadow-lift: 0 2px 4px rgba(26, 20, 32, 0.1), 0 18px 40px rgba(26, 20, 32, 0.18);
+  --shadow-glow: 0 0 0 1px rgba(201, 162, 75, 0.4), 0 10px 30px rgba(201, 162, 75, 0.15);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-linen-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background-color: var(--color-ink);
+    color: var(--color-cocoa);
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+
+  /* Accessible focus — brass ring, visible on both grounds */
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--color-brass);
+    color: var(--color-ink);
+  }
+
+  /* Slim, warm scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-cocoa-dim) 40%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  /* The eyebrow label — small caps, tracked, mono. A ledger heading. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-mono);
+  }
+
+  /* Hand-ruled hairline like a reservation ledger row */
+  .ledger-rule {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in oklab, currentColor 22%, transparent) 8%,
+      color-mix(in oklab, currentColor 22%, transparent) 92%,
+      transparent
+    );
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-rise {
+    animation: rise 0.5s var(--ease-out) both;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-fade {
+    animation: fade 0.4s var(--ease-out) both;
+  }
+
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 0.85;
+    }
+    45% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.7;
+    }
+  }
+  .animate-flicker {
+    animation: flicker 4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
