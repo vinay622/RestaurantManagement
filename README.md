@@ -43,8 +43,7 @@ configured — great for a quick look. In that mode:
 | Admin | `admin@maison.test` | `password` |
 
 The login screen has one-tap buttons to fill these. To register a new **admin** against
-the real backend, use the "Have a staff access code?" field on the register screen with
-the `ADMIN_SIGNUP_CODE` add this code '123098'.
+the real backend, use the "Have a staff access code?" field on the register screen and enter this code '123098'.
 
 ---
 
