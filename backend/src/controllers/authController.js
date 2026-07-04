@@ -14,10 +14,19 @@ const register = asyncHandler(async (req, res) => {
     ])
   }
 
-  // The house access code grants admin. A wrong/absent code is not an
-  // error — it simply creates a normal customer.
-  const role =
-    env.adminSignupCode && accessCode && accessCode === env.adminSignupCode ? 'admin' : 'customer'
+  // No code → a normal customer. A code that matches the house code →
+  // admin. A code that's provided but wrong → rejected, so staff get
+  // clear feedback instead of a silent guest account.
+  let role = 'customer'
+  if (accessCode) {
+    if (env.adminSignupCode && accessCode === env.adminSignupCode) {
+      role = 'admin'
+    } else {
+      throw ApiError.badRequest('Invalid access code.', [
+        { field: 'accessCode', message: 'invalid access code' },
+      ])
+    }
+  }
 
   const user = new User({ name, email, role })
   await user.setPassword(password)

@@ -13,6 +13,7 @@ interface Errors {
   name?: string
   email?: string
   password?: string
+  accessCode?: string
 }
 
 export default function Register() {
@@ -48,8 +49,14 @@ export default function Register() {
       toast.success(`Your account is ready, ${user.name.split(' ')[0]}.`)
       navigate(user.role === 'admin' ? '/admin' : '/book', { replace: true })
     } catch (err) {
-      if (err instanceof ApiError && err.fields) setErrors(err.fields)
-      setFormError(err instanceof ApiError ? err.message : 'Could not create your account.')
+      const message = err instanceof ApiError ? err.message : 'Could not create your account.'
+      if (err instanceof ApiError && err.fields) {
+        setErrors(err.fields)
+        // Keep the code field open so its inline error is visible.
+        if (err.fields.accessCode) setShowCode(true)
+      }
+      setFormError(message)
+      toast.error(message)
     } finally {
       setBusy(false)
     }
@@ -106,7 +113,11 @@ export default function Register() {
             autoComplete="off"
             placeholder="MAISON-••••••"
             value={accessCode}
-            onChange={(e) => setAccessCode(e.target.value)}
+            error={errors.accessCode}
+            onChange={(e) => {
+              setAccessCode(e.target.value)
+              if (errors.accessCode) setErrors((p) => ({ ...p, accessCode: undefined }))
+            }}
           />
         ) : (
           <button

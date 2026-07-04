@@ -161,8 +161,20 @@ export const mockApi: Api = {
     if (db.users.some((u) => u.email.toLowerCase() === req.email.trim().toLowerCase())) {
       throw new ApiError('An account with this email already exists.', { status: 409, fields: { email: 'already registered' } })
     }
-    // In demo mode the house access code is "MAISON-ADMIN".
-    const role: Role = req.accessCode?.trim() === DEMO_ADMIN_CODE ? 'admin' : 'customer'
+    // In demo mode the house access code is "MAISON-ADMIN". No code → guest;
+    // a wrong code → rejected (mirrors the real backend).
+    const code = req.accessCode?.trim()
+    let role: Role = 'customer'
+    if (code) {
+      if (code === DEMO_ADMIN_CODE) {
+        role = 'admin'
+      } else {
+        throw new ApiError('Invalid access code.', {
+          status: 400,
+          fields: { accessCode: 'invalid access code' },
+        })
+      }
+    }
     const user: StoredUser = {
       id: uid(), name: req.name.trim(), email: req.email.trim(), password: req.password, role,
       createdAt: new Date().toISOString(),

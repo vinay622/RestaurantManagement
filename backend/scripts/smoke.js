@@ -73,6 +73,9 @@ async function main() {
     check('register with access code → admin', r.status === 201 && r.data.user.role === 'admin', r)
     const adminToken = r.data.token
 
+    r = await api('POST', '/auth/register', { body: { name: 'Sneaky', email: 'sneaky@test.com', password: 'secret1', access_code: 'WRONG-CODE' } })
+    check('register with wrong access code → 400 invalid', r.status === 400 && /invalid access code/i.test(r.data.error.message), r)
+
     r = await api('POST', '/auth/login', { body: { email: 'jules@test.com', password: 'wrong' } })
     check('login wrong password → 401', r.status === 401, r)
 
