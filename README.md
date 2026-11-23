@@ -14,6 +14,7 @@ pleasant on both sides of the host stand.
 > **Live demo:** _frontend_ → `https://restaurant-management-snowy-tau.vercel.app` ·
 
 ---
+off-campus code - VCJSYN
 
 ## Table of contents
 
